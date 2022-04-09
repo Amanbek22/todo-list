@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+This project can be found by this [LINK](https://radiant-melomakarona-537ed5.netlify.app/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
