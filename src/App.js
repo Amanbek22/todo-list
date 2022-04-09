@@ -8,15 +8,36 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todolist: [
-        { id: 1, text: "Выполнить д-з", status: false },
-        { id: 2, text: "Купить сахар", status: true },
-        { id: 3, text: "Купить соль", status: false },
-      ]
+      todolist: [],
+      isLoading: true,
     }
     this.createTodo = this.createTodo.bind(this);
     this.changeStatus = this.changeStatus.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
+
+
+  // =============== IMPORTANT ===================
+  componentDidMount() {
+    console.log("Did mount");
+    const data = JSON.parse(localStorage.getItem("todo")) || [];
+    this.setState({todolist: data})
+
+    setTimeout(() => {
+      this.setState({isLoading: false})
+    }, 2500)
+  }
+
+  componentDidUpdate() {
+    console.log("Did update");
+    localStorage.setItem("todo", JSON.stringify(this.state.todolist))
+  }
+
+  componentWillUnmount() {
+    console.log("Will unmount");
+  }
+  // =============== IMPORTANT ===================
 
   createTodo(str) {
     this.setState({
@@ -27,6 +48,7 @@ class App extends React.Component {
       }]
     });
   };
+
   changeStatus(id) {
     const newArr = this.state.todolist.map((item) => {
       if (item.id === id) {
@@ -38,7 +60,30 @@ class App extends React.Component {
     this.setState({ todolist: newArr });
   }
 
+  onDelete(id) {
+    const newArr = this.state.todolist.filter((todo) => todo.id !== id);
+    this.setState({todolist: newArr})
+  }
+
+  onEdit(id, text) {
+    const newTodoListArr = this.state.todolist.map((todo) => {
+      if(todo.id === id) {
+        return {
+          ...todo,
+          text
+        }
+      }
+      return todo
+    });
+    this.setState({todolist: newTodoListArr});
+  }
+
   render() {
+    if(this.state.isLoading) {
+      return <div className='loader'>
+        <img src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif" />
+      </div>
+    }
     return (
       <div className="App">
         <div className='todo-wrapper'>
@@ -50,6 +95,8 @@ class App extends React.Component {
               {
                 this.state.todolist.map((todo) => <Todo
                   key={todo.id}
+                  onEdit={this.onEdit}
+                  onDelete={this.onDelete}
                   changeStatus={this.changeStatus}
                   id={todo.id}
                   text={todo.text}

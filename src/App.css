@@ -13,3 +13,12 @@
 .todo-list > div:nth-child(odd){
   background: rgb(177, 177, 177);
 }
+
+.loader {
+  width: 150px;
+  margin: 200px auto;
+}
+
+.loader img {
+  width: 100%;
+}
