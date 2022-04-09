@@ -81,7 +81,7 @@ class App extends React.Component {
   render() {
     if(this.state.isLoading) {
       return <div className='loader'>
-        <img src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif" />
+        <img src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif" alt="Loader" />
       </div>
     }
     return (
